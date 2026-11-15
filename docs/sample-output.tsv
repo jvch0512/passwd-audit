@@ -1,0 +1,14 @@
+# 2 files, 13 findings
+high	PWD001	passwd:4	account toor has UID 0 but is not root: it is a second superuser
+high	PWD002	passwd:8	account legacy has an empty password field: it can log in without a password
+high	PWD004	shadow:2	account alice uses an MD5 crypt hash ($1$): crack it with commodity hardware
+high	PWD002	shadow:4	account legacy has an empty password hash: it can log in without a password
+high	PWD004	shadow:5	account oldguy uses a traditional DES hash: only 8 characters count
+medium	PWD005	passwd:3	system account www-data (UID 33) has an interactive shell: /bin/bash
+medium	PWD006	passwd:4	UID 0 is shared by root and toor: they are the same identity to the kernel
+medium	PWD006	passwd:7	UID 1001 is shared by bob and helpdesk: they are the same identity to the kernel
+medium	PWD003	passwd:9	account ops keeps a password hash in passwd, which every user can read
+medium	PWD008	passwd:10	user name alice appears more than once
+low	PWD007	shadow:1	account root has a password that never expires
+low	PWD007	shadow:3	account bob has a password that never expires
+info	PWD000	passwd:11	not a passwd or shadow entry (expected 7 or 9 colon separated fields), ignored
