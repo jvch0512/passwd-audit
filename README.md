@@ -2,6 +2,8 @@
 
 passwd-audit reads a `passwd` or `shadow` file and reports the account problems that matter in a Linux review: a second account with UID 0, accounts with no password, password hashes sitting in the world-readable `passwd` file, MD5 or DES hashes in `shadow`, system accounts that can log in, duplicate UIDs and names, and hashes that never expire. The file type is detected from the field count (7 for `passwd`, 9 for `shadow`).
 
+![Terminal demo of passwd-audit on its sample data](docs/demo.svg)
+
 **Live demo:** https://jvch0512.github.io/passwd-audit/ (Synthetic account files, fake hashes.)
 
 COBOL (GnuCOBOL). The demo page is rendered from the tool's `--tsv` output by `scripts/site.py` (Python 3, only needed to regenerate the page).
@@ -49,3 +51,13 @@ make test    # 62 checks: rule table, 3000 random files, hostile input and exit 
 ```
 
 MIT.
+
+## Code scanning (SARIF)
+
+`scripts/tsv2sarif.py` converts the `--tsv` output into SARIF 2.1.0, so findings show up in GitHub code scanning:
+
+```sh
+build/passwd-audit examples/passwd examples/shadow --tsv | python3 scripts/tsv2sarif.py --tool passwd-audit --prefix examples > results.sarif
+```
+
+Upload `results.sarif` with `github/codeql-action/upload-sarif`. Severities map to SARIF levels (critical and high to error, medium to warning, low and info to note) and to a `security-severity` score.
